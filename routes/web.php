@@ -16,12 +16,12 @@ Route::get('/', function() {
 });
 
 // 2. Auth Routes: Hanya bisa diakses jika BELUM login (Guest)
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
-});
+// Route::middleware('guest')->group(function () {
+//     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+//     Route::post('/login', [AuthController::class, 'login']);
+//     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+//     Route::post('/register', [AuthController::class, 'register']);
+// });
 
 // 3. Protected Routes: Harus Login (Auth)
 Route::middleware('auth')->group(function () {
@@ -37,15 +37,15 @@ Route::middleware('auth')->group(function () {
     });
 
     // Group Khusus PENJUAL
-    Route::middleware('role:penjual')->group(function () {
-        // Menembak langsung ke file resources/views/welcome.blade.php sesuai screenshot
-        Route::get('/penjual/dashboard', function () {
-            return view('welcome');
-        })->name('penjual.dashboard');
+    // Route::middleware('role:penjual')->group(function () {
+    //     // Menembak langsung ke file resources/views/welcome.blade.php sesuai screenshot
+    //     Route::get('/penjual/dashboard', function () {
+    //         return view('welcome');
+    //     })->name('penjual.dashboard');
 
-        // Route untuk simpan produk
-        Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
-    });
+    //     // Route untuk simpan produk
+    //     Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+    // });
 
     // Route untuk User Biasa / Pembeli (Opsional)
     Route::get('/home', function () {
@@ -53,3 +53,11 @@ Route::middleware('auth')->group(function () {
     })->name('home');
 
 });
+
+    Route::get('/penjual/dashboard', function () {
+    return view('welcome');
+    })->name('penjual.dashboard');
+
+    Route::middleware('role:penjual')->group(function () {
+        Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+    });
