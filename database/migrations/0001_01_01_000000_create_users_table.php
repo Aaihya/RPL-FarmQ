@@ -15,14 +15,20 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             
-            // Kolom Tambahan untuk FarmQ
+            // Kolom Tambahan Asli FarmQ Kelompok Anda
             $table->string('role')->default('user'); 
             $table->string('status')->default('active'); 
             $table->text('deskripsi_usaha')->nullable();
             
+            // 🛒 TAMBAHKAN 3 BARIS INI: Untuk fitur profil dinamis vendor
+            $table->string('shop_name')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('avatar')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
         });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

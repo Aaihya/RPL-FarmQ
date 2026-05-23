@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -20,11 +21,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-    'email',
-    'password',
-    'role',
-    'status',
-    'deskripsi_usaha',
+        'email',
+        'password',
+        'role',
+        'status',
+        'deskripsi_usaha',
+        'shop_name',    // Tambahan baru untuk Nama Toko
+        'phone_number', // Tambahan baru untuk WhatsApp
+        'avatar',       // Tambahan baru untuk Foto Profil
     ];
 
     /**
@@ -48,5 +52,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relasi: Satu Vendor/User bisa memiliki banyak Produk Hewan Qurban
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }
